@@ -1,4 +1,4 @@
-**weNex Backend**
+**wenex Backend**
 Pre requisites
 1. Install Docker
 To run this project with a docker command, we have to install Docker Engine and Docker Compose on our local machine.
