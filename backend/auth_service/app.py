@@ -26,7 +26,7 @@ jwt = JWTManager(app)
 # একটি simple route
 @app.route('/')
 def hello():
-    return "Hello, Wenex!"
+    return "Hello, Weneeeeeeeeeex!"
 
 # যদি তুমি সরাসরি python app.py চালাও
 if __name__ == '__main__':
