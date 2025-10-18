@@ -10,12 +10,16 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - wenex_net
 
   web:
     build: .
-    command: python app.py
+    command: flask run --host=0.0.0.0 --reload
     ports:
       - "5000:5000"
+    volumes:
+      - .:/app
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/wenexdb
       - JWT_SECRET_KEY=human
@@ -23,6 +27,13 @@ services:
       - FLASK_ENV=development
     depends_on:
       - db
+    networks:
+      - wenex_net
 
 volumes:
   postgres_data:
+
+networks:
+  wenex_net:
+    name: wenex_net
+    driver: bridge
