@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api_service:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: wenex-api:dev
+    container_name: wenex-api-service
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      # Local app sync for hot reload
+      - ./app:/app/app
+      - ./migrations:/app/migrations
+    command: >
+      sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    depends_on:
+      - elasticsearch
+    networks:
+      - wenex_net
+
+networks:
+  wenex_net:
+    external: true
