@@ -5,8 +5,8 @@ from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 import os
 
-# Load environment variables
-load_dotenv()
+# # Load environment variables
+# load_dotenv()
 
 app = Flask(__name__)
 
