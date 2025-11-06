@@ -55,7 +55,10 @@ FLASK_ENV=development
 ```bash
 docker-compose up -d
 ```
-
+```bash
+ run dev docker 
+docker compose -f dev-docker-compose.yml up --build 
+```
 * Postgres: `5432`
 * Flask Auth service: `5000`
 
