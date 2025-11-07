@@ -21,7 +21,7 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 # Import routes
-from routes.auth import auth_bp
+from code.routes.auth import auth_bp
 app.register_blueprint(auth_bp, url_prefix="/auth")
 
 @app.route('/')
