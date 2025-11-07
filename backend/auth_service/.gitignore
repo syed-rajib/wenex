@@ -1,0 +1,23 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment files
+.env
+.env/
+venv/
+.venv/
+
+# Ignore database and log files
+*.db
+*.sqlite3
+*.log
+
+# Ignore Docker stuff
+*.pid
+
+# Ignore IDE/editor folders
+.vscode/
+.idea/
