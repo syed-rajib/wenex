@@ -1,7 +1,10 @@
 from flask import Blueprint, request, jsonify
 from app import db, jwt
 from ..model.models import User
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, get_jwt
+import time
+from ..utils.redis_helpers import blacklist_token
+
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -39,6 +42,22 @@ def login():
 
     access_token = create_access_token(identity=str(user.id))
     return jsonify({"access_token": access_token})
+@auth_bp.route("/logout", methods=["POST"])
+@jwt_required()
+def logout():
+    """
+    User logout route.
+    Blacklists current JWT in Redis so it can't be used again.
+    """
+    jti = get_jwt()["jti"]           # JWT এর unique ID
+    exp_timestamp = get_jwt()["exp"] # JWT expiration timestamp
+    now = int(time.time())
+    seconds_until_exp = exp_timestamp - now  # কতক্ষনের জন্য blacklist থাকবে
+
+    # Add token JTI to Redis blacklist
+    blacklist_token(jti, seconds_until_exp)
+
+    return jsonify({"msg": "Successfully logged out"}), 200
 
 
 @auth_bp.route("/profile", methods=["GET"])

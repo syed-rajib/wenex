@@ -13,6 +13,14 @@ services:
     networks:
       - wenex_net
 
+  redis:          
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - wenex_net
+
   web:
     build: .
     command: flask run --host=0.0.0.0 --reload
@@ -23,10 +31,13 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/wenexdb
       - JWT_SECRET_KEY=human
+      - REDIS_HOST=redis       
+      - REDIS_PORT=6379
       - FLASK_APP=app.py
       - FLASK_ENV=development
     depends_on:
       - db
+      - redis                   # <-- web now waits for Redis
     networks:
       - wenex_net
 

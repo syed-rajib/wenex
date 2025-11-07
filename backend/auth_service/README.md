@@ -76,6 +76,27 @@ curl -X POST http://localhost:5000/login \
 -d '{"username":"testuser","password":"testpass"}'
 ```
 
+
+
+
+### Access Redis CLI
+
+```bash
+# Enter the Redis container
+docker compose -f dev-docker-compose.yml exec redis redis-cli
+
+***** Common commands ******
+# List all blacklisted JWTs
+KEYS *
+
+# Check a specific JWT
+GET <TOKEN_JTI>
+
+# Delete a blacklisted JWT (optional, e.g., for testing)
+DEL <TOKEN_JTI>
+```
+
+
 ---
 
 ## Notes
