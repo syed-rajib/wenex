@@ -13,13 +13,37 @@ services:
     env_file:
       - .env
     volumes:
-      # Local app sync for hot reload
       - ./app:/app/app
       - ./migrations:/app/migrations
     command: >
       sh -c "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     depends_on:
       - elasticsearch
+      - redis
+    networks:
+      - wenex_net
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.1
+    container_name: elasticsearch
+    restart: always
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - network.host=0.0.0.0
+    ports:
+      - "9200:9200"
+    networks:
+      - wenex_net
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_fastapi
+    restart: always
+    ports:
+      - "6380:6379"
     networks:
       - wenex_net
 
